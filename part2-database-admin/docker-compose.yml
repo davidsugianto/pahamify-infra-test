@@ -1,0 +1,49 @@
+version: '3.5'
+
+networks:
+  db-net:
+    driver: bridge
+
+services:
+  mysql:
+    container_name: mysql
+    hostname: mysql
+    user: root:root
+    image: 'bitnami/mysql:5.7'
+    restart: unless-stopped
+    ports:
+      - '3306:3306'
+    environment:
+      - 'MYSQL_ROOT_PASSWORD=toor'
+      - 'MYSQL_USER=my_user'
+      - 'MYSQL_PASSWORD=my_password'
+      - 'MYSQL_DATABASE=test'
+      - 'ALLOW_EMPTY_PASSWORD=no'
+    volumes:
+      #- ./scripts/provission:/docker-entrypoint-initdb.d
+      #- ./config/custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
+      - ./scripts:/scripts:rw
+      - ./data/mysql-backup:/mysql-backup
+      - ./data/mysql/${MYSQL_VERSION}:/bitnami/mysql/data
+      - ./data/mysql-dump:/data/mysql-dump
+      - ./logs/mysql/${MYSQL_VERSION}:/opt/bitnami/mysql/logs
+      - ./logs/mysql-dump:/mysql-dump
+      - ./logs/mysql-health:/mysql-health
+    networks:
+      - db-net
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: bitnami/phpmyadmin:5.0.4
+    hostname: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - '80:8080'
+      - '443:8443'
+    environment:
+      - 'DATABASE_HOST=mysql'
+      - 'DATABASE_ALLOW_NO_PASSWORD=no'
+    depends_on:
+      - mysql
+    networks:
+      - db-net
