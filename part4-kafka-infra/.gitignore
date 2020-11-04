@@ -1,0 +1,8 @@
+data/zookeeper/*
+!data/zookeeper/.keepfile
+data/kafka/*
+!data/kafka/.keepfile
+logs/zookeeper/*
+!logs/zookeeper/.keepfile
+logs/kafka/*
+!logs/kafka/.keepfile

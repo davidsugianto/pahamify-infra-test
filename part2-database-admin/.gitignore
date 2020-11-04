@@ -1,0 +1,12 @@
+data/mysql-backup/*
+!data/mysql-backup/.keepfile
+data/mysql/*
+!data/mysql/.keepfile
+data/mysql-dump/*
+!data/mysql-dump/.keepfile
+logs/mysql/*
+!logs/mysql/.keepfile
+logs/mysql-dump/*
+!logs/mysql-dump/.keepfile
+logs/mysql-health/*
+!logs/mysql-health/.keepfile
